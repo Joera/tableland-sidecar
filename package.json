@@ -14,7 +14,7 @@
   "license": "ISC",
   "devDependencies": {
     "@tableland/local": "^2.3.0",
-    "@types/node": "^18.14.1",
+    "@types/node": "^18.19.4",
     "@types/pg": "^8.6.6",
     "nodemon": "^2.0.20",
     "ts-node": "^10.9.1",
