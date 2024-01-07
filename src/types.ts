@@ -5,7 +5,7 @@ export interface Creds {
 
 export interface Payload {
 
-    creds: Creds,
+    creds?: Creds,
     table?: string,
     content?: any,
     query?: string

@@ -2,17 +2,17 @@ import { Database } from "@tableland/sdk";
 import { Wallet, getDefaultProvider } from "ethers";
 import { TuContentItem } from "./table";
 import { Creds, Payload } from "./types";
-
+import 'dotenv/config'
 
 export class DbController {
 
 
     constructor(){}
 
-    init(creds: Creds) {
+    init(creds?: Creds) {
        
-        const wallet = new Wallet(creds.key);
-        const provider = getDefaultProvider(creds.gateway);
+        const wallet = new Wallet(process.env.KEY);
+        const provider = getDefaultProvider(process.env.GATEWAY);
         const signer = wallet.connect(provider);
 
         return new Database({ signer });
@@ -20,7 +20,7 @@ export class DbController {
 
     async create_table(body: Payload)  {
 
-        const db = this.init(body.creds);
+        const db = this.init();
 
         // move to service 
         // per publication!
@@ -56,7 +56,7 @@ export class DbController {
 
     async write_record(body: Payload) {
 
-        const db = this.init(body.creds);
+        const db = this.init();
 
         const records = await db.prepare(`SELECT * from ${body.table} WHERE id = '${body.content.id}';`).all();
 
@@ -73,7 +73,7 @@ export class DbController {
 
     async query(body: Payload) {
 
-        const db = this.init(body.creds);
+        const db = this.init();
 
         return await db.prepare(body.query).all();
     }
@@ -94,7 +94,7 @@ export class DbController {
 
     async batch_insert(body: Payload) {
 
-        const db = this.init(body.creds);
+        const db = this.init();
 
         let statement = db.prepare(body.sql_query);
 
