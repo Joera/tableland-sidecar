@@ -8,6 +8,7 @@
     "debug": "DEBUG=fluence:* npx nodemon src/app.ts",
     "build": "npx tsc"
   },
+  "type": "module",
   "keywords": [],
   "author": "",
   "license": "ISC",
