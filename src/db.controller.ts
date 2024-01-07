@@ -10,6 +10,8 @@ export class DbController {
     constructor(){}
 
     init(creds?: Creds) {
+
+        console.log(process.env)
        
         const wallet = new Wallet(process.env.KEY);
         const provider = getDefaultProvider(process.env.GATEWAY);
