@@ -5,7 +5,7 @@ app.use(express.json());
 app.use(cors())
 const port = 3088;
 
-import { DbController} from './db.controller';
+import { DbController} from './db.controller.js';
 
 const dbCtrl = new DbController();
 

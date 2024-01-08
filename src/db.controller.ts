@@ -1,7 +1,7 @@
-import { Database } from "@tableland/sdk";
+import { Database} from "@tableland/sdk";
 import { Wallet, getDefaultProvider } from "ethers";
-import { TuContentItem } from "./table";
-import { Creds, Payload } from "./types";
+import { TuContentItem } from "./table.js";
+import { Creds, Payload } from "./types.js";
 import 'dotenv/config'
 
 export class DbController {
@@ -11,13 +11,20 @@ export class DbController {
 
     init(creds?: Creds) {
 
-        console.log(process.env)
-       
-        const wallet = new Wallet(process.env.KEY);
-        const provider = getDefaultProvider(process.env.GATEWAY);
-        const signer = wallet.connect(provider);
+        if (process.env.KEY != undefined && process.env.GATEWAY != undefined) {
 
-        return new Database({ signer });
+            console.log(process.env)
+        
+            const wallet = new Wallet(process.env.KEY);
+            const provider = getDefaultProvider(process.env.GATEWAY);
+            const signer = wallet.connect(provider);
+
+            return new Database({ signer });
+
+        } else {
+
+            throw Error("needed env vars not found")
+        }
     }
 
     async create_table(body: Payload)  {
@@ -75,6 +82,8 @@ export class DbController {
 
     async query(body: Payload) {
 
+        if (body.query == undefined ) return;
+
         const db = this.init();
 
         return await db.prepare(body.query).all();
@@ -95,6 +104,8 @@ export class DbController {
     }
 
     async batch_insert(body: Payload) {
+
+        if (body.sql_query == undefined ) return;
 
         const db = this.init();
 
