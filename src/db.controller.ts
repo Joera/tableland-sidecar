@@ -70,7 +70,7 @@ export class DbController {
         const records = await db.prepare(`SELECT * from ${body.table} WHERE id = '${body.content.id}';`).all();
 
         if (records.results.length <  1) {
-           
+
             await this.insert(db,body);
         
         } else {
@@ -90,7 +90,7 @@ export class DbController {
     }
 
 
-    async insert(db: Database, body: any) {
+    async insert(db: Database, body: any) : Promise<string> {
 
         const { meta: insert } = await db
         .prepare(body.sql_query)
@@ -100,6 +100,8 @@ export class DbController {
         console.log('insert');
         let res = await insert.txn?.wait();
         console.log(res);
+
+        return "TL: item inserted"
 
     }
 
@@ -127,7 +129,7 @@ export class DbController {
 
     }
 
-    async update(db: Database, body: any) {
+    async update(db: Database, body: any) : Promise<string> {
 
         const { meta: insert } = await db
         .prepare(`UPDATE ${body.table} SET slug = ?, publication = ?, author = ?, post_type = ?, tags = ?, categories = ?, parent = ?, creation_date = ?, modified_date = ?, content_cid = ? WHERE id = ?`)
@@ -137,6 +139,8 @@ export class DbController {
         console.log('update');
         let res = await insert.txn?.wait();
         console.log(res);
+
+        return "TL: item updated"
 
     }
 
